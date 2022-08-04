@@ -106,7 +106,7 @@ const Sidebar = (props) => {
       <div className="d-none d-md-block">
         <button
           onClick={addPeopleClickHandler}
-          className="btn btn-outline-warning btn-block my-1 mt-4"
+          className="btn btn-info btn-block my-1 mt-4"
         >
           Add People
         </button>

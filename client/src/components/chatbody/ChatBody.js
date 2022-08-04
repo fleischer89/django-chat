@@ -176,7 +176,7 @@ const ChatBody = ({ match, currentChattingMember, setOnlineUserList }) => {
             />
             <button
               id="chat-message-submit"
-              className="btn btn-outline-warning"
+              className="btn btn-primary"
             >
               Send
             </button>
