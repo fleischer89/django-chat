@@ -1,6 +1,6 @@
 const ServerUrl = {
-  BASE_URL: "http://127.0.0.1:8000/",
-  WS_BASE_URL: "ws://127.0.0.1:8000/",
+  BASE_URL: "https://chat-backend.firecitychapel.com/",
+  WS_BASE_URL: "wss://chat-backend.firecitychapel.com/",
 };
 
 export default ServerUrl;
