@@ -7,4 +7,4 @@ djangorestframework-simplejwt==4.8.0
 Pillow==8.3.2
 shortuuid==1.0.1
 pymongo[snappy,gssapi,srv,tls]==3.12.0
-python-dotenv
+python-dotenv=0.20.0
