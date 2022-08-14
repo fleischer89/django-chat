@@ -154,7 +154,7 @@ const Sidebar = (props) => {
       </div>
       <button
         onClick={logoutClickHandler}
-        className="btn btn-outline-danger btn-block mt-1"
+        className="btn btn-danger btn-block mt-1"
       >
         Log Out
       </button>
