@@ -6,6 +6,7 @@ import Constants from "../../lib/constants";
 import SocketActions from "../../lib/socketActions";
 import CommonUtil from "../../util/commonUtil";
 import "./chatBodyStyle.css";
+import InputEmoji from "react-input-emoji";
 
 let socket = new WebSocket(
   ServerUrl.WS_BASE_URL + `ws/users/${CommonUtil.getUserId()}/chat/`
@@ -65,7 +66,6 @@ const ChatBody = ({ match, currentChattingMember, setOnlineUserList }) => {
   };
 
   const messageSubmitHandler = (event) => {
-    event.preventDefault();
     if (inputMessage) {
       socket.send(
         JSON.stringify({
@@ -77,6 +77,7 @@ const ChatBody = ({ match, currentChattingMember, setOnlineUserList }) => {
       );
     }
     setInputMessage("");
+    return false;
   };
 
   const sendTypingSignal = (typing) => {
@@ -164,7 +165,17 @@ const ChatBody = ({ match, currentChattingMember, setOnlineUserList }) => {
       <div className="flex-grow-0 py-3 px-4 border-top">
         <form onSubmit={messageSubmitHandler}>
           <div className="input-group">
-            <input
+            <InputEmoji
+              onChange={setInputMessage}
+              onKeyUp={chatMessageTypingHandler}
+              onEnter={messageSubmitHandler}
+              value={inputMessage}
+              id="chat-message-input"
+              className="form-control"
+              placeholder="Type your message"
+              autoComplete="off"
+            />
+            {/* <input
               onChange={(event) => setInputMessage(event.target.value)}
               onKeyUp={chatMessageTypingHandler}
               value={inputMessage}
@@ -179,7 +190,7 @@ const ChatBody = ({ match, currentChattingMember, setOnlineUserList }) => {
               className="btn btn-primary"
             >
               Send
-            </button>
+            </button> */}
           </div>
         </form>
       </div>
