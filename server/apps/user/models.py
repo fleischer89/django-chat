@@ -5,6 +5,7 @@ from shortuuidfield import ShortUUIDField
 class User(AbstractUser):
 	userId = ShortUUIDField()
 	image = models.ImageField(upload_to="user")
+	phone = models.CharField(max_length=15, null=True)
 
 class OnlineUser(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE)

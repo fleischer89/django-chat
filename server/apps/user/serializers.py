@@ -23,6 +23,10 @@ class SignupSerializer(serializers.ModelSerializer):
 		required=True,
 		validators=[UniqueValidator(queryset=User.objects.all())]
 	)
+	phone = serializers.CharField(
+		required=False,
+		validators=[UniqueValidator(queryset=User.objects.all())]
+	)
 	password = serializers.CharField(
 		write_only=True, required=True, validators=[validate_password]
 	)
@@ -31,12 +35,13 @@ class SignupSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = User
 		fields = (
-			'first_name', 'last_name', 'image', 'email', 'password', 'passwordTwo'
+			'first_name', 'last_name', 'image', 'email', 'phone', 'password', 'passwordTwo'
 		)
 		extra_kwargs = {
 			'first_name': {'required': True},
 			'last_name': {'required': True},
 			'email': {'required': True},
+			'phone': {'required': False},
 			'password': {'required': True},
 		}
 
@@ -51,7 +56,7 @@ class SignupSerializer(serializers.ModelSerializer):
 	def create(self, validated_data):
 		user = User.objects.create(
 			username=validated_data['email'],
-			email=validated_data['email'],
+			phone=validated_data['phone'],
 			first_name=validated_data['first_name'],
 			last_name=validated_data['last_name'],
 			image=validated_data['image']

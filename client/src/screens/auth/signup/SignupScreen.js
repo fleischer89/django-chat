@@ -76,6 +76,17 @@ const SignupScreen = ({ history }) => {
               <p className="requiredFieldError">This field is required</p>
             )}
           </div>
+          <div className="authFieldContainer">
+            <input
+              className="authField"
+              type="tel"
+              placeholder="Phone Number"
+              {...register("phone", { required: false })}
+            />
+            {errors.email && (
+              <p className="requiredFieldError">This field is required</p>
+            )}
+          </div>
           <div className="custom-file">
             <input
               type="file"
