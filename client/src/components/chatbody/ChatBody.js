@@ -7,6 +7,13 @@ import SocketActions from "../../lib/socketActions";
 import CommonUtil from "../../util/commonUtil";
 import "./chatBodyStyle.css";
 import InputEmoji from "react-input-emoji";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { fab } from '@fortawesome/free-brands-svg-icons';
+import { faInfo, faPaperPlane, faCoffee } from '@fortawesome/free-solid-svg-icons';
+import { BrowserView, MobileView, isBrowser, isMobile } from 'react-device-detect';
+
+library.add(fab, faInfo, faPaperPlane, faCoffee);
 
 let socket = new WebSocket(
   ServerUrl.WS_BASE_URL + `ws/users/${CommonUtil.getUserId()}/chat/`
@@ -175,6 +182,14 @@ const ChatBody = ({ match, currentChattingMember, setOnlineUserList }) => {
               placeholder="Type your message"
               autoComplete="off"
             />
+            { inputMessage.length > 0 && (
+              <button
+                id="chat-message-submit"
+                className="btn btn-primary"
+              >
+                Send <FontAwesomeIcon icon="paper-plane" />
+              </button>
+            )}
             {/* <input
               onChange={(event) => setInputMessage(event.target.value)}
               onKeyUp={chatMessageTypingHandler}

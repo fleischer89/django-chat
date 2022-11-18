@@ -8,6 +8,7 @@ import ApiEndpoints from "../../api/apiEndpoints";
 import CommonUtil from "../../util/commonUtil";
 import Constants from "../../lib/constants";
 import Modal from "../modal/modal";
+import { isMobile } from "react-device-detect";
 
 const Sidebar = (props) => {
   const [chatUsers, setChatUsers] = useState([]); //sidebar users
@@ -103,53 +104,94 @@ const Sidebar = (props) => {
 
   return (
     <div className="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-2 border-right">
-      <div className="d-none d-md-block">
+      <div className="d-md-block">
         <button
           onClick={addPeopleClickHandler}
-          className="btn btn-info btn-block my-1 mt-4"
+          className="btn btn-info btn-sm btn-block my-1 mt-4 mr-3"
         >
-          Add People
+          Add Contact
         </button>
       </div>
       <div className="user-list-container">
         {getChatListWithOnlineUser()?.map((chatUser) => {
-          return (
-            <Link
-              onClick={() => props.setCurrentChattingMember(chatUser)}
-              to={`/c/${chatUser.roomId}`}
-              className={
-                "pl-1 list-group-item list-group-item-action border-0 " +
-                getActiveChatClass(chatUser.roomId)
-              }
-              key={chatUser.id}
-            >
-              <div className="d-flex align-items-start">
-                <img
-                  src={chatUser.image}
-                  className="rounded-circle mr-1"
-                  alt={chatUser.name}
-                  width="40"
-                  height="40"
-                />
-                <div className="flex-grow-1 ml-3">
-                  {chatUser.name}
-                  <div className="small">
-                    {chatUser.isOnline ? (
-                      <>
-                        <span className="fas fa-circle chat-online"></span>{" "}
-                        Online
-                      </>
-                    ) : (
-                      <>
-                        <span className="fas fa-circle chat-offline"></span>{" "}
-                        offline
-                      </>
-                    )}
+          if (isMobile) {
+            return (
+              <Link
+                onClick={() => props.setCurrentChattingMember(chatUser)}
+                to={`/c/m/${chatUser.roomId}`}
+                className={
+                  "pl-1 list-group-item list-group-item-action border-0 " +
+                  getActiveChatClass(chatUser.roomId)
+                }
+                key={chatUser.id}
+              >
+                <div className="d-flex align-items-start">
+                  <img
+                    src={chatUser.image}
+                    className="rounded-circle mr-1"
+                    alt={chatUser.name}
+                    width="40"
+                    height="40"
+                  />
+                  <div className="flex-grow-1 ml-3">
+                    {chatUser.name}
+                    <div className="small">
+                      {chatUser.isOnline ? (
+                        <>
+                          <span className="fas fa-circle chat-online"></span>{" "}
+                          Online
+                        </>
+                      ) : (
+                        <>
+                          <span className="fas fa-circle chat-offline"></span>{" "}
+                          offline
+                        </>
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
-            </Link>
-          );
+              </Link>
+            );
+          }
+          else {
+            return (
+              <Link
+                onClick={() => props.setCurrentChattingMember(chatUser)}
+                to={`/c/${chatUser.roomId}`}
+                className={
+                  "pl-1 list-group-item list-group-item-action border-0 " +
+                  getActiveChatClass(chatUser.roomId)
+                }
+                key={chatUser.id}
+              >
+                <div className="d-flex align-items-start">
+                  <img
+                    src={chatUser.image}
+                    className="rounded-circle mr-1"
+                    alt={chatUser.name}
+                    width="40"
+                    height="40"
+                  />
+                  <div className="flex-grow-1 ml-3">
+                    {chatUser.name}
+                    <div className="small">
+                      {chatUser.isOnline ? (
+                        <>
+                          <span className="fas fa-circle chat-online"></span>{" "}
+                          Online
+                        </>
+                      ) : (
+                        <>
+                          <span className="fas fa-circle chat-offline"></span>{" "}
+                          offline
+                        </>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </Link>
+            );
+          }
         })}
       </div>
       <button
