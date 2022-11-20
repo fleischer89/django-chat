@@ -1,5 +1,7 @@
 import React from "react";
 import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as Yup from 'yup';
 import { Link } from "react-router-dom";
 import ApiConnector from "../../../api/apiConnector";
 import ApiEndpoints from "../../../api/apiEndpoints";
@@ -8,11 +10,20 @@ import CookieUtil from "../../../util/cookieUtil";
 import "../authStyle.css";
 
 const LoginScreen = ({ location }) => {
+  const formSchema = Yup.object().shape({
+    username: Yup.string()
+      .required('Email is required')
+      .email('Email is invalid'),
+    password: Yup.string()
+      .required('Password is mandatory')
+      .min(8, 'Password must be at least 8 characters long')
+  });
+  const formOptions = { resolver: yupResolver(formSchema)}
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm(formOptions);
 
   const onSubmit = async (loginData) => {
     const successLoginData = await ApiConnector.sendPostRequest(
@@ -58,7 +69,7 @@ const LoginScreen = ({ location }) => {
               {...register("username", { required: true })}
             />
             {errors.username && (
-              <p className="requiredFieldError">This field is required</p>
+              <p className="requiredFieldError">{errors.username?.message}</p>
             )}
           </div>
           <div className="authFieldContainer">
@@ -69,7 +80,7 @@ const LoginScreen = ({ location }) => {
               {...register("password", { required: true })}
             />
             {errors.password && (
-              <p className="requiredFieldError">This field is required</p>
+              <p className="requiredFieldError">{errors.password?.message}</p>
             )}
           </div>
           <br />

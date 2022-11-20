@@ -1,5 +1,7 @@
 import React, { useRef } from "react";
 import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as Yup from 'yup';
 import { Link } from "react-router-dom";
 import ApiConnector from "../../../api/apiConnector";
 import ApiEndpoints from "../../../api/apiEndpoints";
@@ -7,12 +9,24 @@ import AppPaths from "../../../lib/appPaths";
 import "../authStyle.css";
 
 const SignupScreen = ({ history }) => {
+  const formSchema = Yup.object().shape({
+    email: Yup.string()
+      .required('Email is required')
+      .email('Email is invalid'),
+    password: Yup.string()
+      .required('Password is mandatory')
+      .min(8, 'Password must be at least 8 characters long'),
+    passwordTwo: Yup.string()
+      .required('Password is mandatory')
+      .oneOf([Yup.ref('password')], 'Passwords do not match')
+  });
+  const formOptions = { resolver: yupResolver(formSchema)}
   const {
     register,
     handleSubmit,
     formState: { errors },
     watch,
-  } = useForm();
+  } = useForm(formOptions);
   const password = useRef({});
   password.current = watch("password");
   const image = watch("image");
@@ -73,7 +87,7 @@ const SignupScreen = ({ history }) => {
               {...register("email", { required: true })}
             />
             {errors.email && (
-              <p className="requiredFieldError">This field is required</p>
+              <p className="requiredFieldError">{errors.email?.message}</p>
             )}
           </div>
           <div className="authFieldContainer">
@@ -111,7 +125,7 @@ const SignupScreen = ({ history }) => {
               {...register("password", { required: true })}
             />
             {errors.password && (
-              <p className="requiredFieldError">This field is required</p>
+              <p className="requiredFieldError">{errors.password?.message}</p>
             )}
           </div>
           <div className="authFieldContainer">
